@@ -1,0 +1,77 @@
+
+
+header {
+    background-color: var(--main-bg-color);
+    box-shadow: 0px 1px 2px grey;
+    min-height: 66px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: row;
+}
+
+header .navigation {
+    padding: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+}
+
+header a {
+    text-decoration: none;
+    padding-right: 1em;
+    color: var(--main-font-color);
+}
+
+header .nav-element{
+    flex-direction: column;
+}
+
+header a:hover {
+    color: var(--main-font-color-alt);
+    opacity: 0.5;
+}
+
+header .nav-element:hover *,
+header .nav-element:active *,
+header .nav-element:focus *
+{
+    visibility: visible;
+}
+
+header h5 {
+    color: var(--main-font-color);
+}
+
+header .nav-element div {
+    background-color: var(--main-bg-color);
+    position: absolute;
+    visibility: hidden;
+    min-height: fit-content;
+    box-shadow: 0px 1px 2px grey;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+header .nav-element button {
+    width: 100%;
+    margin-top: 5px;
+}
+
+#account-login-register {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#account-login-register form{
+    display: inherit;
+    flex-direction: column;
+}
+
+#account-settings {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+

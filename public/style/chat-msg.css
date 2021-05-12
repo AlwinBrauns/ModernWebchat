@@ -1,0 +1,28 @@
+.msg{
+    /*float: right;*/
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    background-color: var(--main-bg-color-alt);
+    color: var(--main-font-color-alt);
+    margin: 20px;
+    width: 33%;
+    border-radius: 20px;
+}
+
+.msg small{
+    font-size: 0.7em;
+}
+
+.msg-main{
+    margin-left: 10px;
+}
+
+.msg-leader{
+    padding-right: 10px;
+}
+
+.msg-leader img{
+    height: 66px;
+    clip-path: circle();
+}

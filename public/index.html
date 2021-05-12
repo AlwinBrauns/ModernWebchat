@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Chat</title>
+        <meta name="description" content="Webapp zum Chatten">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./style/main.css">
+        <link rel="stylesheet" href="./style/header.css">
+        <link rel="stylesheet" href="./style/chat.css">
+        <link rel="stylesheet" href="./style/footer.css">
+        <link rel="stylesheet" href="./style/chat-msg.css">
+        <script src="/socket.io/socket.io.js" defer></script>
+        <script defer src="./js/main.js"></script>
+    </head>
+    
+    <body>
+        <header>
+            <div class="navigation">
+                <div class="nav-element">
+                    <a href="#">
+                        🏭 ↴
+                    </a>
+                    <div class="einstellungen"> 
+                        <h5>Hier kannst du dein Chat personalisieren</h5>
+                    </div>
+                </div>
+                <div class="nav-element">
+                    <a href="#">
+                        🏠 ↴
+                    </a>
+                    <div class="raume">
+                        <h5>Hier kannst du Räumen beitreten</h5>
+                        <button value="1">Hauptraum</button>
+                    </div>
+                </div>
+            </div>
+            <div class="navigation">
+                <div class="nav-element">
+                    <a href="#">
+                        Einloggen
+                    </a>
+                    <div id="account-login-register">
+                        <h5>Einloggen ↴</h5>
+                        <h6>UNVERSCHLÜSSELT!</h6>
+                        <form id="login">
+                            <input type="text" id="login-name" placeholder="name"></input>
+                            <input type="password" id="login-pw" placeholder="passwort"></input>
+                            <button type="submit" id="login-submit">Login</button>
+                        </form>
+                        <br>
+                        <h5 id="show-register">Registrieren ↴</h5>
+                        <h6>UNVERSCHLÜSSELT!</h6>
+                        <form id="register">
+                            <input type="text" id="login-name" placeholder="name"></input>
+                            <input type="password" id="login-pw" placeholder="passwort"></input>
+                            <button type="submit" id="login-submit">Register</button>
+                        </form>
+                    </div>
+                    <div id="account-settings">
+                        <h5>Account einstellungen</h5>
+                        <input type="text" id="login-name" placeholder="name"></input>
+                    </div>
+                </div>
+                
+            </div>
+        </header>
+        <div id="chat-fenster">
+            <div id="chat-msgs">
+                <div class="msg">
+                    <div class="msg-leader">
+                        <img src="./imgs/default-avatar.png" alt="" class="msg-avatar">
+                    </div>
+                    <div class="msg-main">
+                        <div class="msg-header">
+                            <p class="msg-date"><small><i>12.12.2021 12:00</i></small></p>
+                        </div>
+                        <div class="msg-body">
+                            <pre class="msg-text">okfoeakf</pre>
+                        </div>
+                        <div class="msg-footer">
+                            <p class="msg-username"><small><i>xyz-name</i></small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="chat-input">
+                <hr></hr>
+                <form>
+                    <div id="chat-form">
+                            <input type="textfield" id="nachricht" placeholder="Nachricht..." ></input>
+                            <button type="submit">➤</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <footer>
+            <p><small>© 2021</small></p>
+        </footer>
+    </body>
+</html>
