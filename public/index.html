@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="./style/footer.css">
         <link rel="stylesheet" href="./style/chat-msg.css">
         <script src="/socket.io/socket.io.js" defer></script>
+        <script defer src="./js/messageHandler.js"></script>
         <script defer src="./js/main.js"></script>
     </head>
     
@@ -39,10 +40,10 @@
             <div class="navigation">
                 <div class="nav-element">
                     <a href="#">
-                        Einloggen
+                        Account
                     </a>
                     <div id="account-login-register">
-                        <h5>Account ↴</h5>
+                        <h5>Einloggen ↴</h5>
                         <h6>UNVERSCHLÜSSELT!</h6>
                         <form id="login">
                             <input type="text" id="login-name" placeholder="name"></input>
@@ -53,14 +54,14 @@
                         <h5 id="show-register">Registrieren ↴</h5>
                         <h6>UNVERSCHLÜSSELT!</h6>
                         <form id="register">
-                            <input type="text" id="login-name" placeholder="name"></input>
-                            <input type="password" id="login-pw" placeholder="passwort"></input>
-                            <button type="submit" id="login-submit">Register</button>
+                            <input type="text" id="register-name" placeholder="name"></input>
+                            <input type="password" id="register-pw" placeholder="passwort"></input>
+                            <button type="submit" id="register-submit">Register</button>
                         </form>
                     </div>
                     <div id="account-settings">
                         <h5>Account einstellungen</h5>
-                        <input type="text" id="login-name" placeholder="name"></input>
+                        <input type="text" id="account-name" placeholder="name"></input>
                     </div>
                 </div>
                 
@@ -87,7 +88,7 @@
             </div>
             <div id="chat-input">
                 <hr></hr>
-                <form>
+                <form id="nachrichten-form">
                     <div id="chat-form">
                             <input type="textfield" id="nachricht" placeholder="Nachricht..." ></input>
                             <button type="submit">➤</button>
