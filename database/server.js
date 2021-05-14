@@ -13,6 +13,7 @@ const pool = new Pool({
 
 app.use(express.json());
 
+//NUR ZUM TESTEN, SPÄTER AUSSCHALTEN
 app.get('/test', (req, res)=>{
     pool.query('SELECT * FROM Accounts', (error, results)=>{
         res.status(200).json(results.rows);
