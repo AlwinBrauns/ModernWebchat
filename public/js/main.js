@@ -8,3 +8,4 @@ nachrichtFormular.addEventListener('submit', e=>{
     messageHandler.sendMsg();
     messageHandler.cleanFormular();
 });
+

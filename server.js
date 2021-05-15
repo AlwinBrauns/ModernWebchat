@@ -12,7 +12,23 @@ server.listen(process.env.PORT || 3000, _=>{
     console.log("[SERVER] Gestartet");
 });
 
+var dbRequestParameters = {
+    host: 'localhost',
+    port: 3001,
+    path: '/',
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    }
+};
+
 io.on('connection', socket=>{
+      
+    dbRequestParameters.path = '/getmsgs';
+    var req = http.request(dbRequestParameters, onResponse);
+    req.write("{\"pw\": \"mysecretkeytogetdata\"}");
+    req.end();
+
     let roomNr = 0;
     console.log("[SERVER] Ein Client-Socket hat sich verbunden");
     //Socket wird in die Standardgruppe "default" getan
@@ -29,3 +45,13 @@ io.on('connection', socket=>{
     });
 });
 
+function onResponse(response) {
+    var str = ''
+    response.on('data', function (chunk) {
+      str += chunk;
+    });
+  
+    response.on('end', function () {
+      console.log(JSON.parse(str));
+    });
+  }

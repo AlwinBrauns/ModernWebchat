@@ -61,7 +61,7 @@ SELECT * FROM Gruppenteilnehmer;
 CREATE TABLE Messages (
     ID SERIAL PRIMARY KEY,
     msg TEXT NOT NULL,
-    datum TIMESTAMP WITH TIME ZONE,
+    datum TIMESTAMP WITH TIME ZONE NOT NULL,
     ToGroup_ID INTEGER NOT NULL,
     FOREIGN KEY(ToGroup_ID) 
     REFERENCES Groups(ID),
@@ -105,8 +105,8 @@ INSERT INTO Gruppenteilnehmer (
 );
 INSERT INTO Messages (msg, datum, ToGroup_ID, FROM_ID)
 VALUES (
-    'Die erste Nachricht der DB!',
-    '2021-05-15 21:50:00+02',
+    'Die zweite Nachricht der DB!',
+    '2021-05-15 21:50:05+02',
     2,
     2
 );
