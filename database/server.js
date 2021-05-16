@@ -41,11 +41,11 @@ app.post('/getmsgs', (req, res)=>{
 });
 
 app.post('/login', (req, res)=>{
+    g
     let abfrage = `SELECT * FROM Accounts WHERE `;
     abfrage += `Username = '${req.body.Username}' AND `;
     abfrage += `pw = '${req.body.pw}';`;
 
-    
     pool.query(abfrage, (error, results)=>{
         if(error){
             res.status(500).json(internalerror);
@@ -61,29 +61,6 @@ app.post('/login', (req, res)=>{
     
 });
 
-
-//NUR ZUM TESTEN, SPÄTER AUSSCHALTEN
-app.get('/accounts', (req, res)=>{
-    pool.query('SELECT * FROM Accounts', (error, results)=>{
-        res.status(200).json(results.rows);
-    });
-});
-app.get('/groups', (req, res)=>{
-    pool.query('SELECT * FROM Groups', (error, results)=>{
-        res.status(200).json(results.rows);
-    });
-});
-app.get('/gruppenteilnehmer', (req, res)=>{
-    pool.query('SELECT * FROM Gruppenteilnehmer', (error, results)=>{
-        res.status(200).json(results.rows);
-    });
-});
-app.get('/messages', (req, res)=>{
-    pool.query('SELECT * FROM Messages', (error, results)=>{
-        res.status(200).json(results.rows);
-    });
-});
-// /\_/\_/\ NUR ZUM TESTN!!! SPÄTER LÖSCHEN _/\_/\_/\
 
 app.listen(3001, _=>{
     console.log("[DB] läuft");

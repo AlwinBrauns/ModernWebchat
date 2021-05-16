@@ -27,9 +27,10 @@ var dbResponse = {};
 
 io.on('connection', socket=>{
       
+    //Standarduser: "Gast"
     let user = {
-        username: "Mustermann",
-        pw: "123"
+        username: "Gast",
+        pw: "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
     };
     let roomNr = 0;
 

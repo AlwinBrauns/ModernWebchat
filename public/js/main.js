@@ -39,6 +39,8 @@ socket.on('register', data=>{
         accountPanel.style.display = "none";
         accountSettings.style.display = "flex";
         nachrichtTextfeld.focus();
+    }else{
+        alert(data);
     }
 });
 
