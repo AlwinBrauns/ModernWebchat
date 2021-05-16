@@ -3,8 +3,10 @@ const app = express();
 const socketio = require('socket.io');
 const http = require('http');
 const path = require('path');
+const { response } = require('express');
 const server = http.createServer(app);
 const io = socketio(server);
+const sha256 = require('js-sha256').sha256;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -21,15 +23,17 @@ var dbRequestParameters = {
         'Content-Type': 'application/json',
     }
 };
+var dbResponse = {};
 
 io.on('connection', socket=>{
       
-    dbRequestParameters.path = '/getmsgs';
-    var req = http.request(dbRequestParameters, onResponse);
-    req.write("{\"pw\": \"mysecretkeytogetdata\"}");
-    req.end();
-
+    let user = {
+        username: "Mustermann",
+        pw: "123"
+    };
     let roomNr = 0;
+
+
     console.log("[SERVER] Ein Client-Socket hat sich verbunden");
     //Socket wird in die Standardgruppe "default" getan
     socket.join("room"+roomNr);
@@ -45,9 +49,35 @@ io.on('connection', socket=>{
     });
 
     socket.on('login', data=>{
-        console.log(data);
-        //TODO: login
-        socket.emit('login', "Erfolgreich");
+        user.username = data.username;
+        user.pw = data.pw;
+        dbRequestParameters.path = "/login";
+        req = http.request(dbRequestParameters, function(response){
+            var str = ''
+            response.on('data', function (chunk) {
+                str += chunk;
+            });
+        
+            response.on('end', function () {
+                dbResponse = JSON.parse(str);
+                console.log("[SERVER] User Login versuch: ");
+                console.log(dbResponse);
+                if(dbResponse[0]?.username == user.username &&
+                    dbResponse[0]?.pw == user.pw){
+                    socket.emit('login', "Erfolgreich");
+                }else{
+                    socket.emit('login', "Erfolglos");
+                }
+            });
+        });
+        user.pw = sha256(user.pw);
+        req.write(`
+            {
+                "Username": "${user.username}",
+                "pw": "${user.pw}"
+            }
+        `);
+        req.end();
     })
 
     socket.on('register', data=>{
@@ -56,14 +86,3 @@ io.on('connection', socket=>{
         socket.emit('register', "Erfolgreich");
     })
 });
-
-function onResponse(response) {
-    var str = ''
-    response.on('data', function (chunk) {
-      str += chunk;
-    });
-  
-    response.on('end', function () {
-      console.log(JSON.parse(str));
-    });
-  }

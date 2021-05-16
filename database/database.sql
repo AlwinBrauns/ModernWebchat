@@ -117,3 +117,15 @@ SELECT * FROM Accounts;
 SELECT * FROM Groups;
 SELECT * FROM Gruppenteilnehmer;
 SELECT * FROM Messages;
+
+
+-- Testnutzer mit sha256 pw (a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3)
+INSERT INTO Accounts (Username, pw, bildpfad)
+VALUES ('Gast', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', './imgs/default-avatar.png');
+INSERT INTO Gruppenteilnehmer (
+    Group_ID,
+    Account_ID
+) VALUES (
+    1,
+    3
+);

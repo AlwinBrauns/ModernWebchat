@@ -11,7 +11,10 @@ nachrichtFormular.addEventListener('submit', e=>{
 
 document.getElementById('login').addEventListener('submit', e=>{
     e.preventDefault();
-    socket.emit('login', "Data");
+    socket.emit('login', {
+        username: document.getElementById('login-name').value,
+        pw: document.getElementById('login-pw').value
+    });
 });
 
 document.getElementById('register').addEventListener('submit', e=>{
@@ -25,6 +28,8 @@ socket.on('login', data=>{
         accountPanel.style.display = "none";
         accountSettings.style.display = "flex";
         nachrichtTextfeld.focus();
+    }else{
+        alert(data);
     }
 });
 

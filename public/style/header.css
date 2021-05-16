@@ -85,3 +85,8 @@ header .nav-element button {
     flex-direction: column;
     align-items: center;
 }
+#account-settings-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
