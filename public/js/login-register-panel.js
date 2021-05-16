@@ -1,5 +1,9 @@
-let isLoginShown = true;
 const showRegisterPanelElement = document.getElementById('show-register-panel');
+const loginFenster = document.getElementById('login-fenster');
+const registerFenster = document.getElementById('register-fenster');
+const accountPanel = document.getElementById('account-login-register');
+
+let isLoginShown = true;
 showRegisterPanelElement.addEventListener('click', registerPanelController);
 showRegisterPanelElement.addEventListener('touchstart', registerPanelController);
 
@@ -12,15 +16,16 @@ function registerPanelController(e){
 }
 
 function showRegisterPanel(e) {
-    document.getElementById('login-fenster').style.display = "none";
-    document.getElementById('register-fenster').style.display = "flex";
+    loginFenster.style.display = "none";
+    registerFenster.style.display = "flex";
     showRegisterPanelElement.textContent = 'Doch lieber Einloggen!';
     isLoginShown = false;
 }
 
 function hideRegisterPanel(e){
-    document.getElementById('login-fenster').style.display = "flex";
-    document.getElementById('register-fenster').style.display = "none";
+    loginFenster.style.display = "flex";
+    registerFenster.style.display = "none";
     showRegisterPanelElement.textContent = 'Jetzt Registrieren!';
     isLoginShown = true;
 }
+

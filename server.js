@@ -43,6 +43,18 @@ io.on('connection', socket=>{
         console.log("[SERVER] Ein Client-Socket hat sich getrennt");
     
     });
+
+    socket.on('login', data=>{
+        console.log(data);
+        //TODO: login
+        socket.emit('login', "Erfolgreich");
+    })
+
+    socket.on('register', data=>{
+        console.log(data);
+        //TODO: register
+        socket.emit('register', "Erfolgreich");
+    })
 });
 
 function onResponse(response) {
