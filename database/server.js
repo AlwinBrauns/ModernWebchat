@@ -41,9 +41,8 @@ app.post('/getmsgs', (req, res)=>{
 });
 
 app.post('/login', (req, res)=>{
-    g
     let abfrage = `SELECT * FROM Accounts WHERE `;
-    abfrage += `Username = '${req.body.Username}' AND `;
+    abfrage += `Username = '${req.body.username}' AND `;
     abfrage += `pw = '${req.body.pw}';`;
 
     pool.query(abfrage, (error, results)=>{
@@ -58,7 +57,39 @@ app.post('/login', (req, res)=>{
             }
         }
     });
-    
+});
+
+app.post('/register', (req, res)=>{
+
+    //Prüfen ob schon gibt
+    let erfolgreich = true;
+    let abfrage = `SELECT * FROM Accounts WHERE `;
+    abfrage += `username = '${req.body.username}';`;
+    pool.query(abfrage, (error, results)=>{
+        if(error){
+            console.log(error);
+            res.status(500).json(internalerror);
+            erfolgreich = false;
+        }else{
+            if(results.rowCount){
+                //Account gibt es schon
+                console.log(results);
+                res.status(403).json(forbidden);
+                erfolgreich = false;
+            }
+        }
+        
+        if(erfolgreich){
+            abfrage = `INSERT INTO Accounts (Username, pw, bildpfad) `;
+            abfrage += `VALUES ('${req.body.username}', `;
+            abfrage += `'${req.body.pw}' , './imgs/default-avatar.png');`;
+            pool.query(abfrage, (error,results)=>{
+                if(results?.rowCount){
+                    res.status(200).json(req.body);
+                }
+            });
+        }
+    });
 });
 
 

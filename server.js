@@ -74,7 +74,7 @@ io.on('connection', socket=>{
         user.pw = sha256(user.pw);
         req.write(`
             {
-                "Username": "${user.username}",
+                "username": "${user.username}",
                 "pw": "${user.pw}"
             }
         `);
@@ -84,6 +84,32 @@ io.on('connection', socket=>{
     socket.on('register', data=>{
         console.log(data);
         //TODO: register
-        socket.emit('register', "Erfolgreich");
+        dbRequestParameters.path = "/register";
+        req = http.request(dbRequestParameters, function(response){
+            var str = ''
+            response.on('data', function (chunk) {
+                str += chunk;
+            });
+        
+            response.on('end', function () {
+                dbResponse = JSON.parse(str);
+                console.log("[SERVER] User Login versuch: ");
+                console.log(dbResponse);
+                if(dbResponse?.username == data.username &&
+                    dbResponse?.pw == data.pw){
+                    socket.emit('register', "Erfolgreich");
+                }else{
+                    socket.emit('register', "Username gibt es schon");
+                }
+            });
+        });
+        data.pw = sha256(data.pw);
+        req.write(`
+            {
+                "username": "${data.username}",
+                "pw": "${data.pw}"
+            }
+        `);
+        req.end();
     })
 });

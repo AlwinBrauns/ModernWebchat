@@ -19,7 +19,10 @@ document.getElementById('login').addEventListener('submit', e=>{
 
 document.getElementById('register').addEventListener('submit', e=>{
     e.preventDefault();
-    socket.emit('register', "Data");
+    socket.emit('register', {
+        username: document.getElementById('register-name').value,
+        pw: document.getElementById('register-pw').value
+    });
 });
 
 socket.on('login', data=>{
