@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="./style/footer.css">
         <link rel="stylesheet" href="./style/chat-msg.css">
         <script src="/socket.io/socket.io.js" defer></script>
+        <script defer src="./js/login-register-panel.js"></script>
         <script defer src="./js/messageHandler.js"></script>
         <script defer src="./js/main.js"></script>
     </head>
@@ -43,21 +44,25 @@
                         Account
                     </a>
                     <div id="account-login-register">
+                        <span id="login-fenster">
                         <h5>Einloggen ↴</h5>
-                        <h6>UNVERSCHLÜSSELT!</h6>
-                        <form id="login">
-                            <input type="text" id="login-name" placeholder="name"></input>
-                            <input type="password" id="login-pw" placeholder="passwort"></input>
-                            <button type="submit" id="login-submit">Login</button>
-                        </form>
-                        <br>
-                        <h5 id="show-register">Registrieren ↴</h5>
-                        <h6>UNVERSCHLÜSSELT!</h6>
-                        <form id="register">
-                            <input type="text" id="register-name" placeholder="name"></input>
-                            <input type="password" id="register-pw" placeholder="passwort"></input>
-                            <button type="submit" id="register-submit">Register</button>
-                        </form>
+                            <form id="login">
+                                <input type="text" id="login-name" placeholder="name"></input>
+                                <input type="password" id="login-pw" placeholder="passwort"></input>
+                                <button type="submit" id="login-submit">Login</button>
+                            </form>
+                        </span>
+                        <a href="#" id="show-register-panel" style="padding: 0">
+                            Jetzt Registrieren!
+                        </a>
+                        <span id="register-fenster">
+                            <h5 id="show-register">Registrieren ↴</h5>
+                            <form id="register">
+                                <input type="text" id="register-name" placeholder="name"></input>
+                                <input type="password" id="register-pw" placeholder="passwort"></input>
+                                <button type="submit" id="register-submit">Register</button>
+                            </form>
+                        </span>
                     </div>
                     <div id="account-settings">
                         <h5>Account einstellungen</h5>

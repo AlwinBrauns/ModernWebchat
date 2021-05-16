@@ -12,7 +12,6 @@ const pool = new Pool({
 });
 
 app.use(express.json());
-app.use(express.urlencoded());
 
 var forbidden = {
     error: "403 Forbidden",

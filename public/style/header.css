@@ -75,3 +75,13 @@ header .nav-element button {
     align-items: center;
 }
 
+#login-fenster{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#register-fenster{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
