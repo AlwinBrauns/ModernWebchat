@@ -29,10 +29,13 @@ io.on('connection', socket=>{
       
     //Standarduser: "Gast"
     let user = {
+        id: 3,
         username: "Gast",
-        pw: "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+        pw: "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+        bildpfad: "./imgs/default-avatar.png"
     };
-    let roomNr = 0;
+    //Default-Raum mit ID 1
+    let roomNr = 1;
 
 
     console.log("[SERVER] Ein Client-Socket hat sich verbunden");
@@ -40,7 +43,7 @@ io.on('connection', socket=>{
     socket.join("room"+roomNr);
 
     socket.on('sendMsg', data=>{
-        console.log("[SERVER] Eine Nachricht wurde geschickt: " + data.username + " | " + data.message);
+        console.log("[SERVER] Eine Nachricht wurde geschickt: " + "ID:" + user.id + " " + user.username + " | " + data.message);
         socket.to("room"+roomNr).emit('receiveMsg', data);
     });
 
@@ -61,12 +64,17 @@ io.on('connection', socket=>{
         
             response.on('end', function () {
                 dbResponse = JSON.parse(str);
-                console.log("[SERVER] User Login versuch: ");
-                console.log(dbResponse);
+                console.log("[SERVER] User Login: ");
                 if(dbResponse[0]?.username == user.username &&
                     dbResponse[0]?.pw == user.pw){
+                    user.id = dbResponse[0].id;
+                    user.bildpfad = dbResponse[0].bildpfad;
+                    console.log(user);
                     socket.emit('login', "Erfolgreich");
                 }else{
+                    user.username = "Gast";
+                    user.pw = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3";
+                    console.log("Erfolglos :(")
                     socket.emit('login', "Erfolglos");
                 }
             });
@@ -79,7 +87,7 @@ io.on('connection', socket=>{
             }
         `);
         req.end();
-    })
+    });
 
     socket.on('register', data=>{
         console.log(data);
@@ -93,11 +101,17 @@ io.on('connection', socket=>{
         
             response.on('end', function () {
                 dbResponse = JSON.parse(str);
-                console.log("[SERVER] User Login versuch: ");
+                console.log("[SERVER] User Register versuch: ");
                 console.log(dbResponse);
-                if(dbResponse?.username == data.username &&
-                    dbResponse?.pw == data.pw){
+                if(dbResponse[0].username == data.username &&
+                    dbResponse[0].pw == data.pw){
                     socket.emit('register', "Erfolgreich");
+                    user.id = dbResponse[0].id;
+                    user.username = dbResponse[0].username;
+                    user.pw = dbResponse[0].pw;
+                    user.bildpfad = dbResponse[0].bildpfad;
+                    console.log("[SERVER] NEW USER: ");
+                    console.log(user);
                 }else{
                     socket.emit('register', "Username gibt es schon");
                 }
@@ -111,5 +125,18 @@ io.on('connection', socket=>{
             }
         `);
         req.end();
-    })
+    });
+
+    socket.on('log-out', _=>{
+        console.log("[SERVER] User Log-Out:");
+        console.log(user);
+        user = {
+            id: 3,
+            username: "Gast",
+            pw: "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+            bildpfad: "./imgs/default-avatar.png"
+        };
+        
+        socket.emit('log-out');
+    });
 });

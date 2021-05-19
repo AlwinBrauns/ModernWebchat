@@ -60,7 +60,6 @@ app.post('/login', (req, res)=>{
 });
 
 app.post('/register', (req, res)=>{
-
     //Prüfen ob schon gibt
     let erfolgreich = true;
     let abfrage = `SELECT * FROM Accounts WHERE `;
@@ -73,7 +72,6 @@ app.post('/register', (req, res)=>{
         }else{
             if(results.rowCount){
                 //Account gibt es schon
-                console.log(results);
                 res.status(403).json(forbidden);
                 erfolgreich = false;
             }
@@ -85,7 +83,21 @@ app.post('/register', (req, res)=>{
             abfrage += `'${req.body.pw}' , './imgs/default-avatar.png');`;
             pool.query(abfrage, (error,results)=>{
                 if(results?.rowCount){
-                    res.status(200).json(req.body);
+                    console.log("[DB] Insert ein neuen Account");
+                    //Abfrage um erstellten Account zu bekommen
+                    abfrage = `SELECT * FROM Accounts `;
+                    abfrage += `WHERE Username = '${req.body.username}';`;
+                    pool.query(abfrage, (error, results)=>{//in Gruppe default stecken
+                        abfrage = `INSERT INTO Gruppenteilnehmer `;
+                        abfrage += `( Group_ID, Account_ID ) `;
+                        abfrage += `VALUES ( 1, ${results.rows[0].id} );`;
+                        pool.query(abfrage, (error, results)=>{
+                            if(!error)
+                            console.log("[DB] Nutzer zur default gruppe hinzugefügt");
+                        });
+                        res.status(200).json(results.rows);
+                        
+                    });
                 }
             });
         }

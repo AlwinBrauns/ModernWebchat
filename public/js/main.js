@@ -25,6 +25,15 @@ document.getElementById('register').addEventListener('submit', e=>{
     });
 });
 
+document.getElementById('log-out').addEventListener('click', e=>{
+    socket.emit('log-out');
+});
+
+socket.on('log-out', _=>{
+    accountPanel.style.display = "flex";
+    accountSettings.style.display = "none";
+})
+
 socket.on('login', data=>{
     if(data=="Erfolgreich")
     {
