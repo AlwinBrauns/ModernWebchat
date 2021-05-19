@@ -104,6 +104,29 @@ app.post('/register', (req, res)=>{
     });
 });
 
+app.post('/message', (req, res)=>{
+    let now = new Date();
+    let abfrage = `INSERT INTO 
+    Messages (msg, datum, ToGroup_ID, FROM_ID) `;
+    abfrage += `VALUES (
+    '${req.body.msg}', 
+    $1, 
+    ${req.body.toID},
+    ${req.body.fromID} 
+    );`;
+    pool.query(abfrage,[now], (error, results)=>{
+        if(!error){
+            res.status(200).json({
+                msg: req.body.msg,
+                date: now,
+                toID: req.body.toID,
+                fromID: req.body.fromID
+            });
+        }
+    });
+
+
+});
 
 app.listen(3001, _=>{
     console.log("[DB] läuft");

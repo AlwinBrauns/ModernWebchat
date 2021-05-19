@@ -56,4 +56,7 @@ socket.on('register', data=>{
     }
 });
 
+socket.on('receiveMsg', data=>{
+    
+});
 

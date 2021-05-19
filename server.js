@@ -43,7 +43,25 @@ io.on('connection', socket=>{
     socket.join("room"+roomNr);
 
     socket.on('sendMsg', data=>{
-        console.log("[SERVER] Eine Nachricht wurde geschickt: " + "ID:" + user.id + " " + user.username + " | " + data.message);
+        console.log("[SERVER] Eine Nachricht wurde geschickt:");
+        dbRequestParameters.path = "/message";
+        req = http.request(dbRequestParameters, function(response){
+            var str = ''
+            response.on('data', function (chunk) {
+                str += chunk;
+            });
+        
+            response.on('end', function () {
+                dbResponse = JSON.parse(str);
+                console.log(dbResponse);
+            });
+        });
+        req.write(`{
+            "msg": "${data.message}",
+            "toID": ${roomNr},
+            "fromID": ${user.id}
+        }`);
+        req.end();
         socket.to("room"+roomNr).emit('receiveMsg', data);
     });
 
