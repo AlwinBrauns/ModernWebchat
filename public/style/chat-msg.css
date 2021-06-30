@@ -6,7 +6,7 @@
     background-color: var(--main-bg-color-alt);
     color: var(--main-font-color-alt);
     margin: 20px;
-    width: 33%;
+    width: 66%;
     border-radius: 20px;
 }
 
@@ -14,8 +14,19 @@
     font-size: 0.7em;
 }
 
-.msg-main{
+.msg-main {
     margin-left: 10px;
+    max-width: 80%;
+}
+
+.msg-main pre {
+
+    word-wrap: break-word;
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }
 
 .msg-leader{

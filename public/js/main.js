@@ -58,5 +58,14 @@ socket.on('register', data=>{
 
 socket.on('receiveMsg', data=>{
     
+    let msgTemplate = document.getElementById("msgTemplate");
+    let newMsg = msgTemplate.content.cloneNode(true);
+    window.console.log(newMsg.children[0].children[1].children[1].children[0]);
+    //stupid asf but dont knnow better solution right know lol
+    newMsg.children[0].children[1].children[1].children[0].textContent = data.msg?data.msg:data.message;
+    document.getElementById("chat-msgs").appendChild(newMsg);
+    
 });
+
+socket.emit('needMsgs');
 

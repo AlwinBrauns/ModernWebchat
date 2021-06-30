@@ -79,22 +79,24 @@
         </header>
         <div id="chat-fenster">
             <div id="chat-msgs">
-                <div class="msg">
-                    <div class="msg-leader">
-                        <img src="./imgs/default-avatar.png" alt="" class="msg-avatar">
+                <template id="msgTemplate">
+                    <div class="msg">
+                        <div class="msg-leader">
+                            <img name="MsgAvatar" src="./imgs/default-avatar.png" alt="" class="msg-avatar">
+                        </div>
+                        <div class="msg-main">
+                            <div class="msg-header">
+                                <p class="msg-date"><small><i name="MsgDatum">12.12.2021 12:00</i></small></p>
+                            </div>
+                            <div class="msg-body">
+                                <pre class="msg-text" name="MsgText">okfoeakf</pre>
+                            </div>
+                            <div class="msg-footer">
+                                <p class="msg-username"><small><i name="MsgUsername">xyz-name</i></small></p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="msg-main">
-                        <div class="msg-header">
-                            <p class="msg-date"><small><i>12.12.2021 12:00</i></small></p>
-                        </div>
-                        <div class="msg-body">
-                            <pre class="msg-text">okfoeakf</pre>
-                        </div>
-                        <div class="msg-footer">
-                            <p class="msg-username"><small><i>xyz-name</i></small></p>
-                        </div>
-                    </div>
-                </div>
+                </template>
             </div>
             <div id="chat-input">
                 <hr></hr>

@@ -40,8 +40,31 @@ io.on('connection', socket=>{
 
     console.log("[SERVER] Ein Client-Socket hat sich verbunden");
     //Socket wird in die Standardgruppe "default" getan
-    socket.join("room"+roomNr);
+    socket.join(`room${roomNr}`);
 
+    socket.on('needMsgs', data=>{
+        //Alle Nachrichten bekommen
+        dbRequestParameters.path = "/getmsgs";
+        req = http.request(dbRequestParameters, function(response){
+            var str = ''
+            response.on('data', function (chunk) {
+                str += chunk;
+            });
+        
+            response.on('end', function () {
+                dbResponse = JSON.parse(str);
+                dbResponse.forEach(function(msg,index){
+                    setTimeout(function () {
+                        io.to(`room${roomNr}`).emit('receiveMsg', msg);
+                        console.log(msg);
+                      }, index * 33);
+                });
+                
+            });
+        });
+        req.write(`{ "group": ${roomNr} }`);
+        req.end();
+    });
     socket.on('sendMsg', data=>{
         console.log("[SERVER] Eine Nachricht wurde geschickt:");
         dbRequestParameters.path = "/message";
@@ -62,7 +85,7 @@ io.on('connection', socket=>{
             "fromID": ${user.id}
         }`);
         req.end();
-        socket.to("room"+roomNr).emit('receiveMsg', data);
+        io.to(`room${roomNr}`).emit('receiveMsg', data);
     });
 
     socket.on('disconnect', function(){

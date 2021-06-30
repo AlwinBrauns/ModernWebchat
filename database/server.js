@@ -26,18 +26,15 @@ var internalerror = {
 }
 
 app.post('/getmsgs', (req, res)=>{
-    if(req.body.pw=="mysecretkeytogetdata"){
-        pool.query('SELECT * FROM Messages', (error, results)=>{
-            if(error){
-                res.status(500).json(internalerror);
-                console.log(error);
-            }else{
-                res.status(200).json(results.rows);
-            }
-        });
-    }else{
-        res.status(403).json(forbidden);
-    }
+    //TODO: WHERE klausel
+    pool.query('SELECT * FROM Messages', (error, results)=>{
+        if(error){
+            res.status(500).json(internalerror);
+            console.log(error);
+        }else{
+            res.status(200).json(results.rows);
+        }
+    });
 });
 
 app.post('/login', (req, res)=>{
