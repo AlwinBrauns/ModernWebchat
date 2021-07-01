@@ -78,3 +78,8 @@ SELECT * FROM Accounts;
 SELECT * FROM Groups;
 SELECT * FROM Gruppenteilnehmer;
 SELECT * FROM Messages;
+
+
+-- Nachrichten löschen:
+-- DELETE FROM messages;
+-- ALTER SEQUENCE messages_id_seq RESTART WITH 1;

@@ -57,6 +57,34 @@ header .nav-element div {
     padding-bottom: 10px;
 }
 
+@media (max-width: 600px){
+    header .nav-element div {
+        left: 100px;
+        max-width: 180px;
+        z-index: 1000;
+    }
+}
+
+@media (max-width: 500px){
+    header .nav-element div {
+        left: 20px;
+        max-width: 180px;
+        z-index: 1000;
+    }
+}
+
+@media (min-width: 600px){
+    header .nav-element div {
+        transform: translateX(-39%);
+    }
+}
+
+@media (min-width: 1100px){
+    header .nav-element div {
+        transform: translateX(-10%);
+    }
+}
+
 header .nav-element button {
     width: 100%;
     margin-top: 5px;
@@ -66,10 +94,12 @@ header .nav-element button {
     display: flex;
     flex-direction: column;
     align-items: center;
+
 }
 #account-login-register form{
     display: inherit;
     flex-direction: column;
+    
 }
 
 #account-settings {
