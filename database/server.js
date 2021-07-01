@@ -26,7 +26,7 @@ var internalerror = {
 }
 
 app.post('/getmsgs', (req, res)=>{
-    //TODO: WHERE klausel
+    //TODO: WHERE klausel Gruppe mit berechneten feldern: username und bildpfad
     pool.query('SELECT * FROM Messages', (error, results)=>{
         if(error){
             res.status(500).json(internalerror);

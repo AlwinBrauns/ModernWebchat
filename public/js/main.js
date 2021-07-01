@@ -60,8 +60,10 @@ socket.on('receiveMsg', data=>{
     
     let msgTemplate = document.getElementById("msgTemplate");
     let newMsg = msgTemplate.content.cloneNode(true);
-    
-    getChildByName(newMsg, "MsgText").textContent = data.msg?data.msg:data.message;
+
+    getChildByName(newMsg, "MsgText").textContent = data.msg;
+    getChildByName(newMsg, "MsgDatum").textContent = data.datum;
+    getChildByName(newMsg, "MsgUsername").textContent = data.username?data.username:"Not Implemented yet";
     
     document.getElementById("chat-msgs").appendChild(newMsg);
 
