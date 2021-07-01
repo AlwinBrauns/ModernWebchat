@@ -31,7 +31,7 @@ app.post('/getmsgs', (req, res)=>{
 
         SELECT Messages.msg, Messages.datum, Messages.from_id, Accounts.username
         FROM Messages, Accounts
-        WHERE Messages.togroup_id=1 AND messages.from_id = accounts.id
+        WHERE Messages.togroup_id=${req.body.group} AND messages.from_id = accounts.id
         ORDER BY Messages.datum
         ;
 
