@@ -59,7 +59,7 @@ header .nav-element div {
 
 @media (max-width: 600px){
     header .nav-element div {
-        left: 100px;
+        left: 130px;
         max-width: 180px;
         z-index: 1000;
     }

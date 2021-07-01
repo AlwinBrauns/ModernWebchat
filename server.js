@@ -153,17 +153,21 @@ io.on('connection', socket=>{
                 dbResponse = JSON.parse(str);
                 console.log("[SERVER] User Register versuch: ");
                 console.log(dbResponse);
-                if(dbResponse[0].username == data.username &&
-                    dbResponse[0].pw == data.pw){
-                    socket.emit('register', "Erfolgreich");
-                    user.id = dbResponse[0].id;
-                    user.username = dbResponse[0].username;
-                    user.pw = dbResponse[0].pw;
-                    user.bildpfad = dbResponse[0].bildpfad;
-                    console.log("[SERVER] NEW USER: ");
-                    console.log(user);
-                }else{
-                    socket.emit('register', "Username gibt es schon");
+                try{
+                    if(dbResponse[0].username == data.username &&
+                        dbResponse[0].pw == data.pw){
+                        socket.emit('register', "Erfolgreich");
+                        user.id = dbResponse[0].id;
+                        user.username = dbResponse[0].username;
+                        user.pw = dbResponse[0].pw;
+                        user.bildpfad = dbResponse[0].bildpfad;
+                        console.log("[SERVER] NEW USER: ");
+                        console.log(user);
+                    }else{
+                        socket.emit('register', "Username gibt es schon");
+                    }
+                }catch(e){
+                    socket.emit('register', e.message);
                 }
             });
         });
