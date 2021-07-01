@@ -55,7 +55,7 @@ io.on('connection', socket=>{
                 dbResponse = JSON.parse(str);
                 dbResponse.forEach(function(msg,index){
                     setTimeout(function () {
-                        io.to(`room${roomNr}`).emit('receiveMsg', msg);
+                        socket.emit('receiveMsg', msg);
                         console.log(msg);
                       }, index * 33);
                 });

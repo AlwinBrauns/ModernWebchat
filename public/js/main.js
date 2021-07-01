@@ -77,7 +77,7 @@ function getChildByName(parent, name){
             child = parent.children[index];
             return child;
         }else{
-            child = getChildByName(parent.children[index], name)
+            child = getChildByName(parent.children[index], name);
             if(child!=undefined){
                 return child;
             }
