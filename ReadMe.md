@@ -1,3 +1,3 @@
 Modern Webchat (in work)
 
-![example picture](example_frontend.PNG)
+![example video](example_frontend.gif)
