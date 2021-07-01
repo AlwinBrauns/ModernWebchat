@@ -60,12 +60,29 @@ socket.on('receiveMsg', data=>{
     
     let msgTemplate = document.getElementById("msgTemplate");
     let newMsg = msgTemplate.content.cloneNode(true);
-    window.console.log(newMsg.children[0].children[1].children[1].children[0]);
-    //stupid asf but dont knnow better solution right know lol
-    newMsg.children[0].children[1].children[1].children[0].textContent = data.msg?data.msg:data.message;
+    
+    getChildByName(newMsg, "MsgText").textContent = data.msg?data.msg:data.message;
+    
     document.getElementById("chat-msgs").appendChild(newMsg);
+
     
 });
+
+function getChildByName(parent, name){
+    let child = undefined;
+    for (var index = 0; index < parent.children.length; index++){
+        if(parent.children[index].attributes?.name?.value == name){
+            child = parent.children[index];
+            return child;
+        }else{
+            child = getChildByName(parent.children[index], name)
+            if(child!=undefined){
+                return child;
+            }
+        }
+    }
+    return undefined;
+}
 
 socket.emit('needMsgs');
 
