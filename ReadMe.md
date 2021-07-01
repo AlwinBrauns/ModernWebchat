@@ -15,4 +15,4 @@ Authentification:
 
 Databasemodel
 
-![DB model](./database/DBmodel.PNG)
+![DB model](./database/DBModel.PNG)
