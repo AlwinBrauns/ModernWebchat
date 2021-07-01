@@ -63,9 +63,11 @@ socket.on('receiveMsg', data=>{
 
     getChildByName(newMsg, "MsgText").textContent = data.msg;
     getChildByName(newMsg, "MsgDatum").textContent = data.datum;
-    getChildByName(newMsg, "MsgUsername").textContent = data.username?data.username:"Not Implemented yet";
+    getChildByName(newMsg, "MsgUsername").textContent = data.username;
     
-    document.getElementById("chat-msgs").appendChild(newMsg);
+    let chatMessages = document.getElementById("chat-msgs");
+    chatMessages.appendChild(newMsg);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 
     
 });
