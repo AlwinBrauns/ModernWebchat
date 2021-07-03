@@ -1,7 +1,6 @@
 const nachrichtTextfeld = document.getElementById("nachricht");
 const nachrichtFormular = document.getElementById("nachrichten-form");
 
-
 class MessageHandler{
     constructor(socket){
         this.message = "-";
@@ -26,7 +25,7 @@ class MessageHandler{
         let newMsg = msgTemplate.content.cloneNode(true);
 
         getChildByName(newMsg, "MsgText").textContent = data.msg;
-        getChildByName(newMsg, "MsgDatum").textContent = data.datum;
+        getChildByName(newMsg, "MsgDatum").textContent = new Date(Date.parse(data.datum)).toUTCString();
         getChildByName(newMsg, "MsgUsername").textContent = data.username;
         
         let chatMessages = document.getElementById("chat-msgs");
