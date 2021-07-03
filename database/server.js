@@ -110,16 +110,17 @@ app.post('/register', (req, res)=>{
 });
 
 app.post('/message', (req, res)=>{
+    console.log(req.body.msg);
     let now = new Date();
     let abfrage = `INSERT INTO 
     Messages (msg, datum, ToGroup_ID, FROM_ID) `;
     abfrage += `VALUES (
-    '${req.body.msg}', 
     $1, 
+    $2, 
     ${req.body.toID},
     ${req.body.fromID} 
     );`;
-    pool.query(abfrage,[now], (error, results)=>{
+    pool.query(abfrage,[req.body.msg,now], (error, results)=>{
         if(!error){
             res.status(200).json({
                 msg: req.body.msg,
@@ -127,6 +128,9 @@ app.post('/message', (req, res)=>{
                 toID: req.body.toID,
                 fromID: req.body.fromID
             });
+        }else{
+            console.log(error.message);
+            res.status(500).json(internalerror);
         }
     });
 

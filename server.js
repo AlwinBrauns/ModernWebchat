@@ -79,21 +79,23 @@ io.on('connection', socket=>{
                 console.log(dbResponse);
 
                 //TODO: better date format
-                io.to(`room${roomNr}`).emit('receiveMsg', JSON.parse(`
+                io.to(`room${roomNr}`).emit('receiveMsg', 
                 {
-                    "datum": "${Date()}",
-                    "from_id": "${user.id}",
-                    "msg": "${data.message}",
-                    "username": "${user.username}"
+                    datum: Date(),
+                    from_id: user.id,
+                    msg: data.message,
+                    username: user.username
                 }
-                `));
+                );
             });
         });
-        req.write(`{
-            "msg": "${data.message}",
-            "toID": ${roomNr},
-            "fromID": ${user.id}
-        }`);
+        console.log(data.message);
+        var writeObject = {
+            msg: data.message,
+            toID: roomNr,
+            fromID: user.id
+        };
+        req.write(JSON.stringify(writeObject));
         req.end();
     });
 
