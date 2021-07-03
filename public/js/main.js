@@ -56,37 +56,7 @@ socket.on('register', data=>{
     }
 });
 
-socket.on('receiveMsg', data=>{
-    
-    let msgTemplate = document.getElementById("msgTemplate");
-    let newMsg = msgTemplate.content.cloneNode(true);
-
-    getChildByName(newMsg, "MsgText").textContent = data.msg;
-    getChildByName(newMsg, "MsgDatum").textContent = data.datum;
-    getChildByName(newMsg, "MsgUsername").textContent = data.username;
-    
-    let chatMessages = document.getElementById("chat-msgs");
-    chatMessages.appendChild(newMsg);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-
-    
-});
-
-function getChildByName(parent, name){
-    let child = undefined;
-    for (var index = 0; index < parent.children.length; index++){
-        if(parent.children[index].attributes?.name?.value == name){
-            child = parent.children[index];
-            return child;
-        }else{
-            child = getChildByName(parent.children[index], name);
-            if(child!=undefined){
-                return child;
-            }
-        }
-    }
-    return undefined;
-}
+socket.on('receiveMsg', data=>messageHandler.receiveMsg(data));
 
 socket.emit('needMsgs');
 

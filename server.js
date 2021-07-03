@@ -27,6 +27,7 @@ io.on('connection', socket=>{
             'Content-Type': 'application/json',
         }
     };
+
     let dbResponse = {};
     
     let writeObject;
@@ -72,7 +73,7 @@ io.on('connection', socket=>{
         req.write(JSON.stringify(writeObject));
         req.end();
     });
-    
+
     socket.on('sendMsg', data=>{
         console.log("[SERVER] Eine Nachricht wurde geschickt:");
         dbRequestParameters.path = "/message";
@@ -109,7 +110,6 @@ io.on('connection', socket=>{
 
     socket.on('disconnect', function(){
         console.log("[SERVER] Ein Client-Socket hat sich getrennt");
-    
     });
 
     socket.on('login', data=>{

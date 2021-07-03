@@ -1,6 +1,7 @@
 const nachrichtTextfeld = document.getElementById("nachricht");
 const nachrichtFormular = document.getElementById("nachrichten-form");
 
+
 class MessageHandler{
     constructor(socket){
         this.message = "-";
@@ -18,5 +19,18 @@ class MessageHandler{
         //TODO: this.username = /* NAMENSABFRAGE */
         this.message = nachrichtTextfeld.value;
     }
+    receiveMsg(data){
+        window.console.log(data);
 
+        let msgTemplate = document.getElementById("msgTemplate");
+        let newMsg = msgTemplate.content.cloneNode(true);
+
+        getChildByName(newMsg, "MsgText").textContent = data.msg;
+        getChildByName(newMsg, "MsgDatum").textContent = data.datum;
+        getChildByName(newMsg, "MsgUsername").textContent = data.username;
+        
+        let chatMessages = document.getElementById("chat-msgs");
+        chatMessages.appendChild(newMsg);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
 }
