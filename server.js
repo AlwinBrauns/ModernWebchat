@@ -14,18 +14,22 @@ server.listen(process.env.PORT || 3000, _=>{
     console.log("[SERVER] Gestartet");
 });
 
-var dbRequestParameters = {
-    host: 'localhost',
-    port: 3001,
-    path: '/',
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    }
-};
-var dbResponse = {};
+
 
 io.on('connection', socket=>{
+
+    let dbRequestParameters = {
+        host: 'localhost',
+        port: 3001,
+        path: '/',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    };
+    let dbResponse = {};
+    
+    let writeObject;
       
     //Standarduser: "Gast"
     let user = {
@@ -62,9 +66,13 @@ io.on('connection', socket=>{
                 
             });
         });
-        req.write(`{ "group": ${roomNr} }`);
+        writeObject = {
+            group: roomNr
+        };
+        req.write(JSON.stringify(writeObject));
         req.end();
     });
+    
     socket.on('sendMsg', data=>{
         console.log("[SERVER] Eine Nachricht wurde geschickt:");
         dbRequestParameters.path = "/message";
@@ -90,7 +98,7 @@ io.on('connection', socket=>{
             });
         });
         console.log(data.message);
-        var writeObject = {
+        writeObject = {
             msg: data.message,
             toID: roomNr,
             fromID: user.id
@@ -132,12 +140,11 @@ io.on('connection', socket=>{
             });
         });
         user.pw = sha256(user.pw);
-        req.write(`
-            {
-                "username": "${user.username}",
-                "pw": "${user.pw}"
-            }
-        `);
+        writeObject = {
+            username: user.username,
+            pw: user.pw
+        };
+        req.write(JSON.stringify(writeObject));
         req.end();
     });
 
@@ -174,12 +181,11 @@ io.on('connection', socket=>{
             });
         });
         data.pw = sha256(data.pw);
-        req.write(`
-            {
-                "username": "${data.username}",
-                "pw": "${data.pw}"
-            }
-        `);
+        writeObject = {
+            username: data.username,
+            pw: data.pw
+        };
+        req.write(JSON.stringify(writeObject));
         req.end();
     });
 
@@ -195,4 +201,5 @@ io.on('connection', socket=>{
         
         socket.emit('log-out');
     });
+
 });
