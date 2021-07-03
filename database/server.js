@@ -26,16 +26,15 @@ var internalerror = {
 }
 
 app.post('/getmsgs', (req, res)=>{
-    //TODO: WHERE klausel Gruppe mit berechneten feldern: username und bildpfad
     pool.query(`
 
         SELECT Messages.msg, Messages.datum, Messages.from_id, Accounts.username
         FROM Messages, Accounts
-        WHERE Messages.togroup_id=${req.body.group} AND messages.from_id = accounts.id
+        WHERE Messages.togroup_id=$1 AND messages.from_id = accounts.id
         ORDER BY Messages.datum
         ;
 
-    `, (error, results)=>{
+    `,[req.body.group], (error, results)=>{
         if(error){
             res.status(500).json(internalerror);
             console.log(error);
@@ -47,10 +46,10 @@ app.post('/getmsgs', (req, res)=>{
 
 app.post('/login', (req, res)=>{
     let abfrage = `SELECT * FROM Accounts WHERE `;
-    abfrage += `Username = '${req.body.username}' AND `;
-    abfrage += `pw = '${req.body.pw}';`;
+    abfrage += `Username = $1 AND `;
+    abfrage += `pw = $2;`;
 
-    pool.query(abfrage, (error, results)=>{
+    pool.query(abfrage, [req.body.username,req.body.pw], (error, results)=>{
         if(error){
             res.status(500).json(internalerror);
             console.log(error);
@@ -68,8 +67,8 @@ app.post('/register', (req, res)=>{
     //Prüfen ob schon gibt
     let erfolgreich = true;
     let abfrage = `SELECT * FROM Accounts WHERE `;
-    abfrage += `username = '${req.body.username}';`;
-    pool.query(abfrage, (error, results)=>{
+    abfrage += `username = $1;`;
+    pool.query(abfrage, [req.body.username], (error, results)=>{
         if(error){
             console.log(error);
             res.status(500).json(internalerror);
@@ -84,19 +83,19 @@ app.post('/register', (req, res)=>{
         
         if(erfolgreich){
             abfrage = `INSERT INTO Accounts (Username, pw, bildpfad) `;
-            abfrage += `VALUES ('${req.body.username}', `;
-            abfrage += `'${req.body.pw}' , './imgs/default-avatar.png');`;
-            pool.query(abfrage, (error,results)=>{
+            abfrage += `VALUES ($1, `;
+            abfrage += `$2 , './imgs/default-avatar.png');`;
+            pool.query(abfrage, [req.body.username,req.body.pw], (error,results)=>{
                 if(results?.rowCount){
                     console.log("[DB] Insert ein neuen Account");
                     //Abfrage um erstellten Account zu bekommen
                     abfrage = `SELECT * FROM Accounts `;
-                    abfrage += `WHERE Username = '${req.body.username}';`;
-                    pool.query(abfrage, (error, results)=>{//in Gruppe default stecken
+                    abfrage += `WHERE Username = $1;`;
+                    pool.query(abfrage,[req.body.username], (error, results)=>{//in Gruppe default stecken
                         abfrage = `INSERT INTO Gruppenteilnehmer `;
                         abfrage += `( Group_ID, Account_ID ) `;
-                        abfrage += `VALUES ( 1, ${results.rows[0].id} );`;
-                        pool.query(abfrage, (error, results)=>{
+                        abfrage += `VALUES ( 1, $1 );`;
+                        pool.query(abfrage, [results.rows[0].id], (error, results)=>{
                             if(!error)
                             console.log("[DB] Nutzer zur default gruppe hinzugefügt");
                         });
@@ -117,10 +116,10 @@ app.post('/message', (req, res)=>{
     abfrage += `VALUES (
     $1, 
     $2, 
-    ${req.body.toID},
-    ${req.body.fromID} 
+    $3,
+    $4
     );`;
-    pool.query(abfrage,[req.body.msg,now], (error, results)=>{
+    pool.query(abfrage,[req.body.msg,now,req.body.toID,req.body.fromID], (error, results)=>{
         if(!error){
             res.status(200).json({
                 msg: req.body.msg,
