@@ -202,4 +202,15 @@ io.on('connection', socket=>{
         socket.emit('log-out');
     });
 
+    socket.on('join-room', data=>{
+        console.log(data.roomNr);
+        //TODO: Checken ob nicht Gast, Abfrage nach raum, joinen und zurückmelden
+    });
+
+    socket.on('create-room', data=>{
+        console.log(data.roomNr);
+        //TODO: Checken ob nicht Gast, Abfrage ob raum noch nicht gibt, erstellen und zurückmelden
+        
+    });
+
 });

@@ -17,6 +17,22 @@ document.getElementById('login').addEventListener('submit', e=>{
     });
 });
 
+document.getElementById('joinRoom').addEventListener('click', e=>{
+    e.preventDefault();
+    let roomNr = document.getElementById('roomNr').value;
+    socket.emit('join-room', {
+        roomNr: roomNr
+    });
+});
+
+document.getElementById('createRoom').addEventListener('click', e=>{
+    e.preventDefault();
+    let roomNr = document.getElementById('roomNr').value;
+    socket.emit('create-room', {
+        roomNr: roomNr
+    });
+});
+
 document.getElementById('register').addEventListener('submit', e=>{
     e.preventDefault();
     socket.emit('register', {
