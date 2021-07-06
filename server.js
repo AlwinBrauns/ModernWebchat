@@ -203,14 +203,36 @@ io.on('connection', socket=>{
     });
 
     socket.on('join-room', data=>{
-        console.log(data.roomNr);
-        //TODO: Checken ob nicht Gast, Abfrage nach raum, joinen und zurückmelden
+        console.log(
+            '[SERVER] User ' 
+            + user.username + 
+            ' wants to join Room:' 
+            + data.roomNr);
+        /*
+        TODO: 
+        Checken ob nicht Gast [x] 
+        Abfrage nach raum [ ]
+        joinen und zurückmelden [ ]
+        */
+       // Wenn Nutzer Gast ist
+       if(user.id == 1){
+        socket.emit('join-room', {
+            message: "Not Allowed",
+            status: false
+        });
+       }else{ // Versuche zu Joinen
+        
+       }
     });
 
     socket.on('create-room', data=>{
         console.log(data.roomNr);
-        //TODO: Checken ob nicht Gast, Abfrage ob raum noch nicht gibt, erstellen und zurückmelden
-        
+        /*
+        TODO: 
+        Checken ob nicht Gast [ ]
+        Abfrage ob raum noch nicht gibt [ ]
+        erstellen und zurückmelden [ ]
+        */
     });
 
 });

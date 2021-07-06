@@ -20,16 +20,20 @@ document.getElementById('login').addEventListener('submit', e=>{
 document.getElementById('joinRoom').addEventListener('click', e=>{
     e.preventDefault();
     let roomNr = document.getElementById('roomNr').value;
+    let roomName = document.getElementById('roomName').value;
     socket.emit('join-room', {
-        roomNr: roomNr
+        roomNr: roomNr,
+        roomName: roomName
     });
 });
 
 document.getElementById('createRoom').addEventListener('click', e=>{
     e.preventDefault();
     let roomNr = document.getElementById('roomNr').value;
+    let roomName = document.getElementById('roomName').value;
     socket.emit('create-room', {
-        roomNr: roomNr
+        roomNr: roomNr,
+        roomName: roomName
     });
 });
 
@@ -73,6 +77,14 @@ socket.on('register', data=>{
 });
 
 socket.on('receiveMsg', data=>messageHandler.receiveMsg(data));
+
+socket.on('join-room', data=>{
+    if(data.status == false){
+        alert("Please Log In to join a group!");
+    }else {
+
+    }
+});
 
 socket.emit('needMsgs');
 
