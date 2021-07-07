@@ -80,9 +80,19 @@ socket.on('receiveMsg', data=>messageHandler.receiveMsg(data));
 
 socket.on('join-room', data=>{
     if(data.status == false){
-        alert("Please Log In to join a group!");
+        alert(data.message);
     }else {
+        if(data.need){
+            // Need to add button
+            //TODO: update room buttons
+            messageHandler.cleanMsg();
+            socket.emit('needMsgs');
 
+        }else{
+            // Only needs to update msgs
+            messageHandler.cleanMsg();
+            socket.emit('needMsgs');
+        }
     }
 });
 

@@ -136,6 +136,73 @@ app.post('/message', (req, res)=>{
 
 });
 
+app.post('/searchgroup', (req, res)=>{
+    let group_id = req.body.groupID;
+    let group_name = req.body.groupName?req.body.groupName:"1x2yzz18jgfkiejanc##NOT_SET";
+    pool.query(`
+        SELECT * FROM Groups WHERE id = $1 OR groupname = $2;
+    `,[group_id, group_name], (error, result)=>{
+        if(!error){
+            if(result.rows[0])
+            {
+                res.status(200).json({
+                    exist: true, 
+                    groupID: result.rows[0].id,
+                    groupName: result.rows[0].groupname
+                });
+            }else{
+                res.status(200).json({
+                    exist: false, 
+                });
+            }
+        }else{
+            console.log(error.message);
+            res.status(500).json(internalerror);
+        }
+    });
+});
+
+app.post('/addtogroup', (req, res)=>{
+    let group_id = req.body.groupID;
+    let user_id = req.body.userID;
+    pool.query(`
+        SELECT * FROM Gruppenteilnehmer WHERE Group_ID = $1 AND Account_ID = $2
+        `, [group_id, user_id], (error,result)=>{
+            if(!error){
+                if(!result.rows){ // WENN NOCH NICHT GIBT
+                    pool.query(`
+                    INSERT INTO Gruppenteilnehmer (
+                        Group_ID,
+                        Account_ID
+                    ) VALUES (
+                        $1,
+                        $2
+                    );
+                    `, [group_id, user_id], (error, result)=>{
+                        if(!error){
+                            res.status(200).json({
+                                status: true,
+                                info: 'added to group/room'
+                            });
+                        }else{
+                            console.log(error.message);
+                            res.status(500).json(internalerror);
+                        }
+                    });
+                }else{
+                    res.status(200).json({
+                        status: false,
+                        info: 'already in that group/room'
+                    });
+                }
+            }else{
+                console.log(error.message);
+                res.status(500).json(internalerror);
+            }
+        });
+    
+});
+
 app.listen(3001, _=>{
     console.log("[DB] läuft");
 });

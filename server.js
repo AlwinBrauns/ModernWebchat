@@ -208,20 +208,78 @@ io.on('connection', socket=>{
             + user.username + 
             ' wants to join Room:' 
             + data.roomNr);
-        /*
-        TODO: 
-        Checken ob nicht Gast [x] 
-        Abfrage nach raum [ ]
-        joinen und zurückmelden [ ]
-        */
        // Wenn Nutzer Gast ist
        if(user.id == 1){
         socket.emit('join-room', {
             message: "Not Allowed",
-            status: false
+            status: false,
+            need: false,
         });
        }else{ // Versuche zu Joinen
-        
+            dbRequestParameters.path = "/searchgroup";
+            req = http.request(dbRequestParameters, function(response){
+                var str = ''
+                response.on('data', function (chunk) {
+                    str += chunk;
+                });
+            
+                response.on('end', function () {
+                    dbResponse = JSON.parse(str);
+                    if(dbResponse.exist){
+                        console.log(
+                            '[SERVER] User ' 
+                            + user.username + 
+                            ' joins Room:'
+                            + dbResponse.groupID);
+                        roomNr = dbResponse.groupID;
+                        socket.join(`room${roomNr}`);
+
+                        dbRequestParameters.path = "/addtogroup";
+                        req = http.request(dbRequestParameters, function(response){
+                            var str = ''
+                            response.on('data', function (chunk) {
+                                str += chunk;
+                            });
+                        
+                            response.on('end', function () {
+                                dbResponse = JSON.parse(str);
+                                if(dbResponse.status){
+                                    socket.emit('join-room', {
+                                        message: "Succsess",
+                                        status: true,
+                                        need: true,
+                                    });
+                                }else{
+                                    socket.emit('join-room', {
+                                        message: "Already in Group/Room",
+                                        status: true,
+                                        need: false,
+                                    });
+                                }
+                            });
+                        });
+                        writeObject = {
+                            groupID: data.roomNr,
+                            userID: user.id,
+                        };
+                        req.write(JSON.stringify(writeObject));
+                        req.end();
+                    }else{
+                        console.log('[SERVER] no success');
+                        socket.emit('join-room', {
+                            message: "Group does not exist",
+                            status: false,
+                            need: false,
+                        });
+                    }
+                });
+            });
+            writeObject = {
+                groupID: data.roomNr,
+                groupName: data.roomName
+            };
+            req.write(JSON.stringify(writeObject));
+            req.end();
        }
     });
 
