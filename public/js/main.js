@@ -17,24 +17,22 @@ document.getElementById('login').addEventListener('submit', e=>{
     });
 });
 
-document.getElementById('joinRoom').addEventListener('click', e=>{
+document.getElementById('joinOrCreateRoom').addEventListener('submit', e=>{
     e.preventDefault();
     let roomNr = document.getElementById('roomNr').value;
     let roomName = document.getElementById('roomName').value;
-    socket.emit('join-room', {
-        roomNr: roomNr,
-        roomName: roomName
-    });
-});
-
-document.getElementById('createRoom').addEventListener('click', e=>{
-    e.preventDefault();
-    let roomNr = document.getElementById('roomNr').value;
-    let roomName = document.getElementById('roomName').value;
-    socket.emit('create-room', {
-        roomNr: roomNr,
-        roomName: roomName
-    });
+    if(e.submitter.value=="join"){
+        socket.emit('join-room', {
+            roomNr: roomNr,
+            roomName: roomName
+        });
+    }else{
+        socket.emit('create-room', {
+            roomNr: roomNr,
+            roomName: roomName
+        });
+    }
+    
 });
 
 document.getElementById('register').addEventListener('submit', e=>{
