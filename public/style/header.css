@@ -106,11 +106,15 @@ header .nav-element button {
     align-items: center;
 }
 
-@media (max-width: 600px){
+@media (max-width: 500px){
     header .nav-element div {
-        left: 130px;
-        max-width: 180px;
+        left: -125px;
+        margin: 0px 50%;
+        width: 150px;
         z-index: 1000;
+        padding-left: 50px;
+        padding-right: 50px;
+        zoom: 1;
     }
     #room-information{
         flex-direction: column;
@@ -118,11 +122,15 @@ header .nav-element button {
     }
 }
 
-@media (max-width: 500px){
+@media (max-width: 600px){
     header .nav-element div {
-        left: 20px;
-        max-width: 180px;
+        left: -150px;
+        margin: 0px 50%;
+        width: 200px;
         z-index: 1000;
+        padding-left: 50px;
+        padding-right: 50px;
+        zoom: 1.5;
     }
     #room-information{
         flex-direction: column;
