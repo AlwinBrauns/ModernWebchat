@@ -87,7 +87,6 @@ io.on('connection', socket=>{
                 dbResponse = JSON.parse(str);
                 console.log(dbResponse);
 
-                //TODO: better date format
                 io.to(`room${roomNr}`).emit('receiveMsg', 
                 {
                     datum: Date(),
@@ -231,6 +230,7 @@ io.on('connection', socket=>{
                             + user.username + 
                             ' joins Room:'
                             + dbResponse.groupID);
+                        socket.leave(`room${roomNr}`);
                         roomNr = dbResponse.groupID;
                         socket.join(`room${roomNr}`);
 
