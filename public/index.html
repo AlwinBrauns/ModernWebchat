@@ -35,11 +35,20 @@
                     </a>
                     <div class="raume">
                         <!--<h5>Hier kannst du Räumen beitreten</h5>-->
-                            <button value="1">Hauptraum</button>
+                        <span id="roomButtons">
+                            <template id="raumButtonTemplate">
+                                <button name="JoinRoom" value="1">Hauptraum</button>
+                            </template>
+                        </span>
+                            
                             <form id="joinOrCreateRoom">
-                                <input type="text" id="room" placeholder="gruppe#02">
-                                <button id="joinRoom" value="join" type="submit">Join Room</button>
-                                <button id="createRoom" value="create" type="submit">Create Room</button>
+                                <span id="room"><input type="text" placeholder="gruppe#02"></span>
+                                <button id="joinRoom" value="join" type="submit">
+                                    Join Room
+                                </button>
+                                <button id="createRoom" value="create" type="submit">
+                                    Create Room
+                                </button>
                             </form>
                     </div>
                 </div>

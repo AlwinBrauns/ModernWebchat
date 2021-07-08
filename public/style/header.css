@@ -113,6 +113,13 @@ header .nav-element button {
     }
 }
 
+#room {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
 @media (max-width: 600px){
     header .nav-element div {
         left: -150px;

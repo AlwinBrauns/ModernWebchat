@@ -169,7 +169,7 @@ app.post('/addtogroup', (req, res)=>{
         SELECT * FROM Gruppenteilnehmer WHERE Group_ID = $1 AND Account_ID = $2
         `, [group_id, user_id], (error,result)=>{
             if(!error){
-                if(!result.rows){ // WENN NOCH NICHT GIBT
+                if(result.rowCount == 0){ // WENN NOCH NICHT GIBT
                     pool.query(`
                     INSERT INTO Gruppenteilnehmer (
                         Group_ID,
@@ -180,9 +180,10 @@ app.post('/addtogroup', (req, res)=>{
                     );
                     `, [group_id, user_id], (error, result)=>{
                         if(!error){
+                            console.log(result);
                             res.status(200).json({
                                 status: true,
-                                info: 'added to group/room'
+                                info: 'added to group/room',
                             });
                         }else{
                             console.log(error.message);

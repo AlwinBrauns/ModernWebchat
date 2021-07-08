@@ -232,6 +232,7 @@ io.on('connection', socket=>{
                             + dbResponse.groupID);
                         socket.leave(`room${roomNr}`);
                         roomNr = dbResponse.groupID;
+                        let roomName = dbResponse.groupName;
                         socket.join(`room${roomNr}`);
 
                         dbRequestParameters.path = "/addtogroup";
@@ -248,6 +249,8 @@ io.on('connection', socket=>{
                                         message: "Succsess",
                                         status: true,
                                         need: true,
+                                        roomNr: roomNr,
+                                        roomName: roomName,
                                     });
                                 }else{
                                     socket.emit('join-room', {

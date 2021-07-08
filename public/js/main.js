@@ -19,8 +19,10 @@ document.getElementById('login').addEventListener('submit', e=>{
 
 document.getElementById('joinOrCreateRoom').addEventListener('submit', e=>{
     e.preventDefault();
-    let roomNr = document.getElementById('roomNr').value;
-    let roomName = document.getElementById('roomName').value;
+    let roomName = (document.getElementById('room').children[0].value)
+                .substr(0, (document.getElementById('room').children[0].value).indexOf('#'));
+    let roomNr = parseInt((document.getElementById('room').children[0].value)
+                .substr((document.getElementById('room').children[0].value).indexOf('#')+1));
     if(e.submitter.value=="join"){
         socket.emit('join-room', {
             roomNr: roomNr,
@@ -80,9 +82,11 @@ socket.on('join-room', data=>{
     if(data.status == false){
         alert(data.message);
     }else {
+        window.console.log(data);
+
         if(data.need){
             // Need to add button
-            //TODO: update room buttons
+            addRoomButton(data.roomName,data.roomNr)
             messageHandler.cleanMsg();
             socket.emit('needMsgs');
 
@@ -96,3 +100,13 @@ socket.on('join-room', data=>{
 
 socket.emit('needMsgs');
 
+function addRoomButton(roomname, index) {
+    let template = document.getElementById("raumButtonTemplate");
+    let newButton = template.content.cloneNode(true);
+    getChildByName(newButton, "JoinRoom").textContent = roomname;
+    getChildByName(newButton, "JoinRoom").value = index;
+    let roomButtonsContainer = document.getElementById("roomButtons");
+    roomButtonsContainer.appendChild(newButton);
+}
+
+addRoomButton("default", 1);
