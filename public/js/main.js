@@ -49,9 +49,12 @@ document.getElementById('log-out').addEventListener('click', e=>{
     socket.emit('log-out');
 });
 
+
 socket.on('log-out', _=>{
     accountPanel.style.display = "flex";
     accountSettings.style.display = "none";
+    cleanRoomButtons();
+    socket.emit('needGroups');
 })
 
 socket.on('login', data=>{
@@ -107,6 +110,13 @@ function addRoomButton(roomname, index) {
     let newButton = template.content.cloneNode(true);
     getChildByName(newButton, "JoinRoom").textContent = roomname;
     getChildByName(newButton, "JoinRoom").value = index;
+    getChildByName(newButton, "JoinRoom").addEventListener('click', e=>{
+        window.console.log(e.target.value);
+        socket.emit('join-room', {
+            roomNr: e.target.value,
+            roomName: ""
+        });
+    });
     let roomButtonsContainer = document.getElementById("roomButtons");
     roomButtonsContainer.appendChild(newButton);
 }
@@ -117,7 +127,6 @@ function cleanRoomButtons() {
         getChildByName(roomButtonsContainer, "JoinRoom").remove();
     }
 }
-
 
 socket.emit('needGroups');
 socket.on('needGroups',data=>{
