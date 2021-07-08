@@ -296,4 +296,30 @@ io.on('connection', socket=>{
         */
     });
 
+    socket.on('needGroups', _=>{
+        dbRequestParameters.path = "/getgroups";
+        req = http.request(dbRequestParameters, function(response){
+            var str = ''
+            response.on('data', function (chunk) {
+                str += chunk;
+            });
+        
+            response.on('end', function () {
+                dbResponse = JSON.parse(str);
+                dbResponse.forEach(function(msg,index){
+                    setTimeout(function () {
+                        socket.emit('needGroups', msg);
+                        console.log(msg);
+                      }, index * 33);
+                });
+                
+            });
+        });
+        writeObject = {
+            userID: user.id
+        };
+        req.write(JSON.stringify(writeObject));
+        req.end();
+    });
+
 });

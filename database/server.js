@@ -44,6 +44,29 @@ app.post('/getmsgs', (req, res)=>{
     });
 });
 
+app.post('/getgroups', (req, res)=>{
+    pool.query(
+        `
+        SELECT 
+        Groups.id,
+        Groups.groupname
+        FROM Gruppenteilnehmer INNER JOIN Groups 
+        
+        ON Gruppenteilnehmer.group_id = Groups.id
+        
+        WHERE account_id = $1;
+        `,
+        [req.body.userID], (error, results)=>{
+            if(error){
+                res.status(500).json(internalerror);
+                console.log(error);
+            }else{
+                res.status(200).json(results.rows);
+            }
+        }
+    )
+});
+
 app.post('/login', (req, res)=>{
     let abfrage = `SELECT * FROM Accounts WHERE `;
     abfrage += `Username = $1 AND `;

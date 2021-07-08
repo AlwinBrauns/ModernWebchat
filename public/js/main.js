@@ -60,6 +60,8 @@ socket.on('login', data=>{
         accountPanel.style.display = "none";
         accountSettings.style.display = "flex";
         nachrichtTextfeld.focus();
+        cleanRoomButtons();
+        socket.emit('needGroups');
     }else{
         alert(data);
     }
@@ -109,4 +111,15 @@ function addRoomButton(roomname, index) {
     roomButtonsContainer.appendChild(newButton);
 }
 
-addRoomButton("default", 1);
+function cleanRoomButtons() {
+    let roomButtonsContainer = document.getElementById("roomButtons");
+    while(getChildByName(roomButtonsContainer, "JoinRoom")){
+        getChildByName(roomButtonsContainer, "JoinRoom").remove();
+    }
+}
+
+
+socket.emit('needGroups');
+socket.on('needGroups',data=>{
+        addRoomButton(data.groupname, data.id);
+});
