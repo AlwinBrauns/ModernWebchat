@@ -34,9 +34,8 @@ class MessageHandler{
     }
     cleanMsg(){
         let msgs = document.getElementsByClassName('msg');
-        if(msgs[0]){
+        while(msgs[0]){
             msgs[0].remove();
-            this.cleanMsg();
         }
     }
 }
